@@ -1,6 +1,6 @@
-
 import { Link } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
+import { ROUTES } from "./shared/constants";
 
 export default function App() {
   return (
@@ -13,13 +13,13 @@ export default function App() {
           </h1>
           <div className="space-x-4">
             <Link
-              to="/form"
+              to={ROUTES.FORM}
               className="px-16 py-3 bg-green-500 text-white rounded-2xl shadow transition-colors duration-300 hover:bg-red-600"
             >
               Form
             </Link>
             <Link
-              to="/table"
+              to={ROUTES.TABLE}
               className="px-16 py-3 bg-green-500 text-white rounded-2xl shadow transition-colors duration-300 hover:bg-red-600"
             >
               Table
