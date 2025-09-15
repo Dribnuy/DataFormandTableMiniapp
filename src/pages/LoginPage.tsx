@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 import { loginUser, loadUserFromStorage } from "../store/auth-service/authSlice";
 import { selectAuth } from "../store/auth-service/selectors";
 import type { User } from "../store/auth-service/types";
-import { ROUTES } from "../shared/constants";
+import { ROUTES } from "../core/constants";
 import { useEffect } from "react";
 
 export default function LoginPage() {
@@ -71,7 +71,7 @@ export default function LoginPage() {
               Login
             </button>
             <p className="text-center">
-              Don't have an account? <Link to={ROUTES.REGISTER} className="text-white underline">Register</Link>
+              Don't have an account? <Link to={ROUTES.REGISTER} className="text-white underline font-bold">Register</Link>
             </p>
           </form>
         </div>

@@ -7,7 +7,8 @@ export type FormData = {
 };
 
 export type FormState = {
-  data: FormData[];
+  data: FormData[]; // Мокові дані
+  userData: FormData[]; // Користувацькі дані
   sortConfig?: {
     key: keyof FormData;
     direction: "asc" | "desc";
@@ -17,4 +18,11 @@ export type FormState = {
     ageMax?: number;
     substring?: string;
   };
+  pagination: {
+    page: number;
+    limit: number;
+  };
+  loading: boolean;
+  error: string | null;
+  total: number;
 };

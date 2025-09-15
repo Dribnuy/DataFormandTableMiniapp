@@ -5,7 +5,7 @@ import { addFormData } from "../store/form-service/formSlice";
 import Sidebar from "../components/Sidebar";
 import { v4 as uuidv4 } from "uuid";
 import type { FormData } from "../store/form-service/types";
-import { ROUTES } from "../shared/constants";
+import { ROUTES } from "../core/constants";
 
 export default function FormPage() {
   const {

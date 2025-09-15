@@ -6,7 +6,7 @@ import { registerUser, loadUserFromStorage } from "../store/auth-service/authSli
 import { selectAuth } from "../store/auth-service/selectors";
 import type { User } from "../store/auth-service/types";
 import { useEffect } from "react";
-import { ROUTES } from "../shared/constants";
+import { ROUTES } from "../core/constants";
 
 export default function RegisterPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<User>();
@@ -17,7 +17,7 @@ export default function RegisterPage() {
   useEffect(() => {
     dispatch(loadUserFromStorage());
     if (isAuthenticated) navigate(ROUTES.HOME); 
-  }, [dispatch, navigate, isAuthenticated]);
+  }, [dispatch, navigate]);
 
   const onSubmit = (data: User) => {
     console.log("Registering user:", data);

@@ -1,15 +1,15 @@
 import type { RootState } from "../index";
 
 export const selectFormData = (state: RootState) => {
-  const { data, sortConfig, filters } = state.form;
-  let filteredData = [...data];
+  const { userData, sortConfig, filters } = state.form;
+  let filteredData = [...(userData || [])];
 
   if (filters) {
     if (filters.ageMin !== undefined || filters.ageMax !== undefined) {
       filteredData = filteredData.filter(
         (item) =>
           (filters.ageMin === undefined || item.age >= filters.ageMin) &&
-          (filters.ageMax === undefined || item.age <= filters.ageMax),
+          (filters.ageMax === undefined || item.age <= filters.ageMax)
       );
     }
     if (filters.substring && filters.substring.trim() !== "") {
@@ -18,7 +18,7 @@ export const selectFormData = (state: RootState) => {
         (item) =>
           item.firstName.toLowerCase().includes(substring) ||
           item.lastName.toLowerCase().includes(substring) ||
-          item.description.toLowerCase().includes(substring),
+          item.description.toLowerCase().includes(substring)
       );
     }
   }
@@ -38,7 +38,16 @@ export const selectFormData = (state: RootState) => {
     });
   }
 
-  return filteredData;
+  // Пагінація
+  const { page, limit } = state.form.pagination;
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  return filteredData.slice(startIndex, endIndex);
 };
 
 export const selectSortConfig = (state: RootState) => state.form.sortConfig;
+export const selectFilters = (state: RootState) => state.form.filters;
+export const selectPagination = (state: RootState) => state.form.pagination || { page: 1, limit: 10 };
+export const selectLoading = (state: RootState) => state.form.loading || false;
+export const selectError = (state: RootState) => state.form.error || null;
+export const selectTotal = (state: RootState) => state.form.userData.length || 0; // Оновлено total на основі userData

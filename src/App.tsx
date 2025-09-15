@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import { ROUTES } from "./shared/constants";
+import { ROUTES } from "./core/constants";
 
 export default function App() {
   return (
