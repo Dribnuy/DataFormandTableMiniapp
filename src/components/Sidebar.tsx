@@ -16,7 +16,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="w-64 h-screen bg-gradient-to-r from-purple-400 to-blue-600 border-r border-black text-white p-4 flex flex-col justify-between shadow-lg">
+    <div className="w-64 h-auto bg-gradient-to-r from-purple-400 to-blue-600 border-r border-black text-white p-4 flex flex-col justify-between shadow-lg">
       <div>
         <h2 className="text-xl font-bold mb-4 text-center">{t('app.menu')}</h2>
         
@@ -29,16 +29,17 @@ export default function Sidebar() {
           <Button to={ROUTES.HOME}>{t('navigation.mainMenu')}</Button>
           <Button to={ROUTES.FORM}>{t('navigation.form')}</Button>
           <Button to={ROUTES.TABLE}>{t('navigation.table')}</Button>
+          <Button
+            onClick={handleLogout}
+            className="w-full  bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold py-2 rounded-lg shadow-lg hover:from-red-600 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+          >
+            {t('navigation.logout')}
+          </Button>
         </div>
       </div>
       {isAuthenticated && (
         <div className="mt-auto">
-          <Button
-            onClick={handleLogout}
-            className="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold py-2 rounded-lg shadow-lg hover:from-red-600 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
-          >
-            {t('navigation.logout')}
-          </Button>
+          
         </div>
       )}
     </div>
