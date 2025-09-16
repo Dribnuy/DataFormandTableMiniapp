@@ -12,6 +12,7 @@ import { store } from "./store";
 import { ROUTES } from "./core/constants";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "./store/auth-service/selectors";
+import i18n from "i18next";
 
 const ProtectedRoute = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);

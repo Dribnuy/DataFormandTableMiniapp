@@ -1,0 +1,88 @@
+{
+  "app": {
+    "title": "Ласкаво просимо до міні-додатку таблиця та форма на React",
+    "menu": "Меню",
+    "language": "Мова"
+  },
+  "navigation": {
+    "mainMenu": "Головне меню",
+    "form": "Форма",
+    "table": "Таблиця",
+    "login": "Вхід",
+    "register": "Реєстрація",
+    "logout": "Вихід"
+  },
+  "auth": {
+    "username": "Ім'я користувача",
+    "password": "Пароль",
+    "email": "Електронна пошта",
+    "loginTitle": "Вхід",
+    "registerTitle": "Реєстрація",
+    "loginButton": "Увійти",
+    "registerButton": "Зареєструватися",
+    "noAccount": "Немає акаунту?",
+    "hasAccount": "Уже маєте акаунт?",
+    "invalidCredentials": "Неправильні дані для входу",
+    "noRegisteredUsers": "Немає зареєстрованих користувачів",
+    "validation": {
+      "usernameRequired": "Ім'я користувача обов'язкове",
+      "passwordRequired": "Пароль обов'язковий",
+      "passwordMinLength": "Пароль має містити принаймні 6 символів",
+      "emailRequired": "Електронна пошта обов'язкова",
+      "emailInvalid": "Неправильна електронна пошта"
+    }
+  },
+  "form": {
+    "title": "Дані форми",
+    "firstName": "Ім'я",
+    "lastName": "Прізвище",
+    "age": "Вік",
+    "description": "Опис",
+    "submit": "Відправити",
+    "backToTable": "Назад до форми",
+    "validation": {
+      "firstNameRequired": "Ім'я обов'язкове",
+      "lastNameRequired": "Прізвище обов'язкове",
+      "ageRequired": "Вік обов'язковий",
+      "ageMin": "Вік має бути принаймні 1"
+    }
+  },
+  "table": {
+    "title": "Таблиця даних",
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "age": "Вік",
+    "description": "Опис",
+    "actions": "Дії",
+    "edit": "Редагувати",
+    "delete": "Видалити",
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "editEntry": "Редагувати запис",
+    "filters": {
+      "ageMin": "Мін. вік",
+      "ageMax": "Макс. вік",
+      "searchSubstring": "Пошук",
+      "apply": "Застосувати фільтри",
+      "clear": "Очистити фільтри",
+      "itemsPerPage": "Елементів на сторінці:"
+    },
+    "pagination": {
+      "buttonPagination": "Кнопкова пагінація",
+      "infiniteScroll": "Нескінченна прокрутка",
+      "noMoreData": "Більше немає даних для завантаження",
+      "showing": "Показано {{count}} з {{total}} записів",
+      "noData": "У вас поки немає даних.",
+      "noDataHint": "Спробуйте додати дані через форму або налаштуйте фільтри."
+    }
+  },
+  "placeholders": {
+    "firstName": "Ім'я",
+    "lastName": "Прізвище",
+    "age": "Вік",
+    "description": "Опис",
+    "username": "Ім'я користувача",
+    "password": "Пароль",
+    "email": "Електронна пошта"
+  }
+}

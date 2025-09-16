@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import Sidebar from "../components/Sidebar";
 import {
   selectFormData,
@@ -28,6 +29,7 @@ import { ButtonPagination } from "../components/PaginationComponents";
 type PaginationType = "button" | "scroll";
 
 export default function TablePage() {
+  const { t } = useTranslation();
   const data = useSelector(selectFormData);
   const sortConfig = useSelector(selectSortConfig);
   const filters = useSelector(selectFilters);
@@ -51,7 +53,7 @@ export default function TablePage() {
   const [paginationType, setPaginationType] = useState<PaginationType>("button");
   const [infiniteData, setInfiniteData] = useState<FormData[]>([]);
 
-  // Load initial data only if needed (no mock data)
+  
   useEffect(() => {
     if (paginationType === "button" && total === 0) {
       dispatch(fetchEntries({ page: pagination.page, limit: pagination.limit, useMockData: false }));
@@ -61,7 +63,7 @@ export default function TablePage() {
     }
   }, [dispatch, paginationType, pagination.limit, total]);
 
-  // Handle infinite scroll data
+  
   useEffect(() => {
     if (paginationType === "scroll" && data.length > 0) {
       if (pagination.page === 1) {
@@ -72,7 +74,7 @@ export default function TablePage() {
     }
   }, [data, pagination.page, paginationType]);
 
-  // Infinite scroll effect
+ 
   useEffect(() => {
     if (paginationType === "scroll") {
       const handleScroll = () => {
@@ -159,7 +161,7 @@ export default function TablePage() {
               className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
               onClick={() => handleSort("firstName")}
             >
-              Name{" "}
+              {t('table.name')}{" "}
               {sortConfig?.key === "firstName" &&
                 (sortConfig.direction === "asc" ? "↑" : "↓")}
             </th>
@@ -167,7 +169,7 @@ export default function TablePage() {
               className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
               onClick={() => handleSort("lastName")}
             >
-              Surname{" "}
+              {t('table.surname')}{" "}
               {sortConfig?.key === "lastName" &&
                 (sortConfig.direction === "asc" ? "↑" : "↓")}
             </th>
@@ -175,14 +177,14 @@ export default function TablePage() {
               className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
               onClick={() => handleSort("age")}
             >
-              Age{" "}
+              {t('table.age')}{" "}
               {sortConfig?.key === "age" && (sortConfig.direction === "asc" ? "↑" : "↓")}
             </th>
             <th
               className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
               onClick={() => handleSort("description")}
             >
-              Description{" "}
+              {t('table.description')}{" "}
               {sortConfig?.key === "description" &&
                 (sortConfig.direction === "asc" ? "↑" : "↓")}
             </th>
@@ -190,7 +192,7 @@ export default function TablePage() {
               className="border border-white px-4 py-3 text-black font-semibold"
               style={{ minWidth: "150px" }}
             >
-              Actions
+              {t('table.actions')}
             </th>
           </tr>
         </thead>
@@ -216,14 +218,14 @@ export default function TablePage() {
                     className="px-3 py-1 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-600 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300"
                     style={{ minWidth: "60px" }}
                   >
-                    Edit
+                    {t('table.edit')}
                   </button>
                   <button
                     onClick={() => handleDelete(i)}
                     className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-300"
                     style={{ minWidth: "60px" }}
                   >
-                    Delete
+                    {t('table.delete')}
                   </button>
                 </div>
               </td>
@@ -239,9 +241,9 @@ export default function TablePage() {
       <Sidebar />
       <div className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600">
         <div className="flex-1 min-h-screen flex flex-col items-center p-6">
-          <h2 className="text-2xl font-bold mb-4 text-white">Table of Data</h2>
+          <h2 className="text-2xl font-bold mb-4 text-white">{t('table.title')}</h2>
 
-          {/* Pagination Type Selector */}
+          
           <div className="mb-4 flex gap-4">
             <button
               onClick={() => setPaginationType("button")}
@@ -251,7 +253,7 @@ export default function TablePage() {
                   : "bg-blue-600 text-white hover:bg-blue-700"
               }`}
             >
-              Button Pagination
+              {t('table.pagination.buttonPagination')}
             </button>
             <button
               onClick={() => setPaginationType("scroll")}
@@ -261,16 +263,15 @@ export default function TablePage() {
                   : "bg-blue-600 text-white hover:bg-blue-700"
               }`}
             >
-              Infinite Scroll
+              {t('table.pagination.infiniteScroll')}
             </button>
           </div>
 
-          {/* Filters */}
           <div className="mb-6 w-full max-w-xl bg-gradient-to-r from-orange-500 to-purple-600 p-4 rounded-lg shadow-lg">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-1">
-                  Age Min
+                  {t('table.filters.ageMin')}
                 </label>
                 <input
                   type="number"
@@ -285,7 +286,7 @@ export default function TablePage() {
               </div>
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-1">
-                  Age Max
+                  {t('table.filters.ageMax')}
                 </label>
                 <input
                   type="number"
@@ -300,7 +301,7 @@ export default function TablePage() {
               </div>
               <div>
                 <label className="block text-gray-700 text-sm font-medium mb-1">
-                  Search Substring
+                  {t('table.filters.searchSubstring')}
                 </label>
                 <input
                   type="text"
@@ -317,19 +318,19 @@ export default function TablePage() {
                   disabled={loading}
                   className="px-4 py-2 rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-pink-500 hover:to-yellow-500 transition-all duration-300 ease-in-out disabled:opacity-50"
                 >
-                  Apply Filters
+                  {t('table.filters.apply')}
                 </button>
                 <button
                   onClick={clearFilters}
                   disabled={loading}
                   className="px-4 py-2 rounded-xl text-white bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-700 hover:to-gray-800 transition-all duration-300 ease-in-out disabled:opacity-50"
                 >
-                  Clear Filters
+                  {t('table.filters.clear')}
                 </button>
               </div>
               <div className="flex items-center gap-2">
                 <label className="text-white text-sm font-medium">
-                  Items per page:
+                  {t('table.filters.itemsPerPage')}
                 </label>
                 <select
                   value={pagination.limit}
@@ -346,29 +347,26 @@ export default function TablePage() {
             </div>
           </div>
 
-          {/* Loading State */}
+          
           {loading && currentData.length === 0 && (
             <div className="flex justify-center items-center py-8">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
             </div>
           )}
 
-        
-          
-
-          {/* Data Display */}
+         
           {!loading && currentData.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-white text-lg">You don't have any data yet.</p>
+              <p className="text-white text-lg">{t('table.pagination.noData')}</p>
               <p className="text-white/70 text-sm mt-2">
-                Try adding some data via the form or adjust your filters.
+                {t('table.pagination.noDataHint')}
               </p>
             </div>
           ) : (
             <>
               {renderTable()}
 
-              {/* Pagination */}
+              
               {paginationType === "button" && (
                 <ButtonPagination
                   currentPage={pagination.page}
@@ -378,20 +376,20 @@ export default function TablePage() {
                 />
               )}
 
-              {/* Infinite Scroll Loading */}
+              
               {paginationType === "scroll" && loading && currentData.length > 0 && (
                 <div className="flex justify-center mt-4">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
                 </div>
               )}
 
-              {/* End of data message */}
+              
               {paginationType === "scroll" &&
                 !loading &&
                 currentData.length > 0 &&
                 pagination.page * pagination.limit >= total && (
                   <div className="text-center mt-4 text-white/70">
-                    No more data to load
+                    {t('table.pagination.noMoreData')}
                   </div>
                 )}
             </>
@@ -400,7 +398,7 @@ export default function TablePage() {
           {/* Stats */}
           {currentData.length > 0 && (
             <div className="mt-4 text-white text-sm">
-              Showing {currentData.length} of {total} entries
+              {t('table.pagination.showing', { count: currentData.length, total })}
             </div>
           )}
 
@@ -409,7 +407,7 @@ export default function TablePage() {
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
               <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
                 <h3 className="text-xl font-bold mb-4 text-gray-800">
-                  Edit Entry
+                  {t('table.editEntry')}
                 </h3>
                 <div className="space-y-4">
                   <input
@@ -418,7 +416,7 @@ export default function TablePage() {
                       setEditData({ ...editData, firstName: e.target.value })
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Name"
+                    placeholder={t('placeholders.firstName')}
                   />
                   <input
                     value={editData.lastName}
@@ -426,7 +424,7 @@ export default function TablePage() {
                       setEditData({ ...editData, lastName: e.target.value })
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Surname"
+                    placeholder={t('placeholders.lastName')}
                   />
                   <input
                     type="number"
@@ -438,7 +436,7 @@ export default function TablePage() {
                       })
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Age"
+                    placeholder={t('placeholders.age')}
                   />
                   <textarea
                     value={editData.description}
@@ -446,7 +444,7 @@ export default function TablePage() {
                       setEditData({ ...editData, description: e.target.value })
                     }
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                    placeholder="Description"
+                    placeholder={t('placeholders.description')}
                     rows={3}
                   />
                 </div>
@@ -455,13 +453,13 @@ export default function TablePage() {
                     onClick={handleSaveEdit}
                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
                   >
-                    Save
+                    {t('table.save')}
                   </button>
                   <button
                     onClick={() => setEditIndex(null)}
                     className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
                   >
-                    Cancel
+                    {t('table.cancel')}
                   </button>
                 </div>
               </div>
@@ -472,7 +470,7 @@ export default function TablePage() {
             to={ROUTES.FORM}
             className="mt-6 px-6 py-2 bg-white text-blue-600 font-semibold rounded-full shadow-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-xl border border-blue-200"
           >
-            Back To Form
+            {t('form.backToTable')}
           </Link>
         </div>
       </div>

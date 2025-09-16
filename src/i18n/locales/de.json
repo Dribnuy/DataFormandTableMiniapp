@@ -1,0 +1,88 @@
+{
+  "app": {
+    "title": "Willkommen zur Tabelle und Formular React Mini-App",
+    "menu": "Menü",
+    "language": "Sprache"
+  },
+  "navigation": {
+    "mainMenu": "Hauptmenü",
+    "form": "Formular",
+    "table": "Tabelle",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "username": "Benutzername",
+    "password": "Passwort",
+    "email": "E-Mail",
+    "loginTitle": "Anmelden",
+    "registerTitle": "Registrieren",
+    "loginButton": "Anmelden",
+    "registerButton": "Registrieren",
+    "noAccount": "Haben Sie noch kein Konto?",
+    "hasAccount": "Haben Sie bereits ein Konto?",
+    "invalidCredentials": "Ungültige Anmeldedaten",
+    "noRegisteredUsers": "Keine registrierten Benutzer",
+    "validation": {
+      "usernameRequired": "Benutzername ist erforderlich",
+      "passwordRequired": "Passwort ist erforderlich",
+      "passwordMinLength": "Passwort muss mindestens 6 Zeichen lang sein",
+      "emailRequired": "E-Mail ist erforderlich",
+      "emailInvalid": "Ungültige E-Mail"
+    }
+  },
+  "form": {
+    "title": "Formulardaten",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "age": "Alter",
+    "description": "Beschreibung",
+    "submit": "Absenden",
+    "backToTable": "Zurück zum Formular",
+    "validation": {
+      "firstNameRequired": "Vorname ist erforderlich",
+      "lastNameRequired": "Nachname ist erforderlich",
+      "ageRequired": "Alter ist erforderlich",
+      "ageMin": "Alter muss mindestens 1 sein"
+    }
+  },
+  "table": {
+    "title": "Datentabelle",
+    "name": "Vorname",
+    "surname": "Nachname",
+    "age": "Alter",
+    "description": "Beschreibung",
+    "actions": "Aktionen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "editEntry": "Eintrag bearbeiten",
+    "filters": {
+      "ageMin": "Min. Alter",
+      "ageMax": "Max. Alter",
+      "searchSubstring": "Suchen",
+      "apply": "Filter anwenden",
+      "clear": "Filter löschen",
+      "itemsPerPage": "Elemente pro Seite:"
+    },
+    "pagination": {
+      "buttonPagination": "Button-Paginierung",
+      "infiniteScroll": "Unendliches Scrollen",
+      "noMoreData": "Keine weiteren Daten zum Laden",
+      "showing": "Zeigt {{count}} von {{total}} Einträgen",
+      "noData": "Sie haben noch keine Daten.",
+      "noDataHint": "Versuchen Sie, Daten über das Formular hinzuzufügen oder passen Sie Ihre Filter an."
+    }
+  },
+  "placeholders": {
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "age": "Alter",
+    "description": "Beschreibung",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "email": "E-Mail"
+  }
+}
