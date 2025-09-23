@@ -7,8 +7,8 @@ export type FormData = {
 };
 
 export type FormState = {
-  data: FormData[]; 
-  userData: FormData[]; 
+  userData: any;
+  data: FormData[];
   sortConfig?: {
     key: keyof FormData;
     direction: "asc" | "desc";

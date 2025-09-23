@@ -1,12 +1,91 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { addFormData } from "../store/form-service/formSlice";
 import Sidebar from "../components/Sidebar";
 import { v4 as uuidv4 } from "uuid";
 import type { FormData } from "../store/form-service/types";
 import { ROUTES } from "../core/constants";
+
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const GradientBackground = styled(Box)(({ theme }) => ({
+  flex: 1,
+  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+  minHeight: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const FormCard = styled(Box)(({ theme }) => ({
+  background: "linear-gradient(145deg, #ffffff, #e0e7ff)",
+  padding: theme.spacing(4),
+  borderRadius: 16,
+  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+  width: "100%",
+  maxWidth: 450,
+  display: "flex",
+  flexDirection: "column",
+  gap: theme.spacing(2.5),
+  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  "&:hover": {
+    transform: "translateY(-4px)",
+    boxShadow: "0 12px 32px rgba(0, 0, 0, 0.2)",
+  },
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 12,
+    backgroundColor: "#ffffff",
+    "& fieldset": {
+      borderColor: "#d1d5db",
+    },
+    "&:hover fieldset": {
+      borderColor: "#a3bffa",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#4a90e2",
+    },
+    "& input, & textarea": {
+      padding: theme.spacing(1.5),
+      fontSize: "0.95rem",
+    },
+  },
+  "& .MuiInputLabel-root": {
+    color: "#6b7280",
+    fontSize: "0.9rem",
+  },
+  "& .MuiFormHelperText-root": {
+    fontSize: "0.8rem",
+    color: "#e53e3e",
+  },
+}));
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  padding: theme.spacing(1.5),
+  borderRadius: 12,
+  background: "linear-gradient(90deg, #4a90e2, #7b61ff)",
+  color: "#ffffff",
+  fontWeight: "bold",
+  textTransform: "none",
+  fontSize: "1rem",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    background: "linear-gradient(90deg, #357abd, #5f4bb6)",
+    transform: "translateY(-2px)",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+  },
+}));
 
 export default function FormPage() {
   const { t } = useTranslation();
@@ -35,72 +114,75 @@ export default function FormPage() {
   };
 
   return (
-    <div className="flex">
+    <Box sx={{ display: "flex", height: "100vh" }}>
       <Sidebar />
-      <div className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600">
-        <div className="min-h-screen flex items-center justify-center">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="bg-gradient-to-l from-blue-200 to-red-300 p-6 rounded-lg shadow-md w-96 space-y-4"
-          >
-            <h2 className="text-2xl font-bold text-center">{t('form.title')}</h2>
+      <GradientBackground>
+        <Container maxWidth="sm">
+          <FormCard>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  color: "#2d3748",
+                  mb: 3,
+                }}
+              >
+                {t("form.title")}
+              </Typography>
 
-            <div>
-              <input
-                {...register("firstName", { required: t('form.validation.firstNameRequired') })}
-                placeholder={t('placeholders.firstName')}
-                className="w-full px-3 py-2 border rounded-md bg-white"
+              <StyledTextField
+                {...register("firstName", { required: t("form.validation.firstNameRequired") })}
+                label={t("placeholders.firstName")}
+                variant="outlined"
+                fullWidth
+                error={!!errors.firstName}
+                helperText={errors.firstName?.message}
+                sx={{ mb: 2 }}
               />
-              {errors.firstName && (
-                <p className="text-red-500 text-sm">
-                  {errors.firstName.message}
-                </p>
-              )}
-            </div>
 
-            <div>
-              <input
-                {...register("lastName", { required: t('form.validation.lastNameRequired') })}
-                placeholder={t('placeholders.lastName')}
-                className="w-full px-3 py-2 border rounded-md bg-white"
+              <StyledTextField
+                {...register("lastName", { required: t("form.validation.lastNameRequired") })}
+                label={t("placeholders.lastName")}
+                variant="outlined"
+                fullWidth
+                error={!!errors.lastName}
+                helperText={errors.lastName?.message}
+                sx={{ mb: 2 }}
               />
-              {errors.lastName && (
-                <p className="text-red-500 text-sm">
-                  {errors.lastName.message}
-                </p>
-              )}
-            </div>
 
-            <div>
-              <input
+              <StyledTextField
                 type="number"
                 {...register("age", {
-                  required: t('form.validation.ageRequired'),
-                  min: { value: 1, message: t('form.validation.ageMin') },
+                  required: t("form.validation.ageRequired"),
+                  min: { value: 1, message: t("form.validation.ageMin") },
                 })}
-                placeholder={t('placeholders.age')}
-                className="w-full px-3 py-2 border rounded-md bg-white"
+                label={t("placeholders.age")}
+                variant="outlined"
+                fullWidth
+                error={!!errors.age}
+                helperText={errors.age?.message}
+                sx={{ mb: 2 }}
               />
-              {errors.age && (
-                <p className="text-red-500 text-sm">{errors.age.message}</p>
-              )}
-            </div>
 
-            <textarea
-              {...register("description")}
-              placeholder={t('placeholders.description')}
-              className="w-full px-3 py-2 border rounded-md bg-white"
-            />
+              <StyledTextField
+                {...register("description")}
+                label={t("placeholders.description")}
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={4}
+                sx={{ mb: 2 }}
+              />
 
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-lg transition-colors duration-300 hover:bg-purple-900 border-1 border-black"
-            >
-              {t('form.submit')}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+              <SubmitButton type="submit" variant="contained" fullWidth>
+                {t("form.submit")}
+              </SubmitButton>
+            </form>
+          </FormCard>
+        </Container>
+      </GradientBackground>
+    </Box>
   );
 }

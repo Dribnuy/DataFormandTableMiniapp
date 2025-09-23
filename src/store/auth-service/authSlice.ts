@@ -1,3 +1,4 @@
+// authSlice.ts
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { User, AuthState } from './types';
 import { initialState } from './initialState';
@@ -9,21 +10,21 @@ const authSlice = createSlice({
     registerUser: (state: AuthState, action: PayloadAction<User>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
-      localStorage.setItem('user', JSON.stringify(action.payload)); 
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     loginUser: (state: AuthState, action: PayloadAction<User>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
-      localStorage.setItem('user', JSON.stringify(action.payload)); 
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     logoutUser: (state: AuthState) => {
       state.user = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('user'); 
+      localStorage.removeItem('user');
     },
     loadUserFromStorage: (state: AuthState) => {
       const savedUser = localStorage.getItem('user');
-      if (savedUser) {
+      if (savedUser && !state.isAuthenticated) { // Додано умову !state.isAuthenticated
         state.user = JSON.parse(savedUser);
         state.isAuthenticated = true;
       }

@@ -1,47 +1,105 @@
-import { useTranslation } from 'react-i18next';
-import Button from "../shared/ui/Button";
-import { ROUTES } from "../core/constants";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/auth-service/authSlice";
 import { selectIsAuthenticated } from "../store/auth-service/selectors";
-import LanguageSelector from './LanguageSelector';
+import LanguageSelector from "./LanguageSelector";
+import { Box, Button, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { ROUTES } from "../core/constants";
+
+const SidebarBox = styled(Box)(({ theme }) => ({
+  width: "256px",
+  height: "auto",
+  background: "linear-gradient(135deg, #9333ea 0%, #3b82f6 100%)",
+  borderRight: "1px solid #000",
+  color: "white",
+  padding: theme.spacing(2),
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  boxShadow: theme.shadows[4],
+}));
 
 export default function Sidebar() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    navigate(ROUTES.LOGIN); 
   };
 
   return (
-    <div className="w-64 h-auto bg-gradient-to-r from-purple-400 to-blue-600 border-r border-black text-white p-4 flex flex-col justify-between shadow-lg">
-      <div>
-        <h2 className="text-xl font-bold mb-4 text-center">{t('app.menu')}</h2>
-        
-        
-        <div className="mb-6 flex justify-center">
-          <LanguageSelector />
-        </div>
+    <SidebarBox>
+      <Box>
+        <Typography variant="h6" align="center" sx={{ mb: 4, fontWeight: "bold" }}>
+          {t("app.menu")}
+        </Typography>
 
-        <div className="flex flex-col items-center space-y-4">
-          <Button to={ROUTES.HOME}>{t('navigation.mainMenu')}</Button>
-          <Button to={ROUTES.FORM}>{t('navigation.form')}</Button>
-          <Button to={ROUTES.TABLE}>{t('navigation.table')}</Button>
+        <Box sx={{ mb: 6, display: "flex", justifyContent: "center" }}>
+          <LanguageSelector />
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Button
-            onClick={handleLogout}
-            className="w-full  bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold py-2 rounded-lg shadow-lg hover:from-red-600 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+            component={Link}
+            to={ROUTES.HOME}
+            variant="contained"
+            sx={{
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              color: "white",
+              "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.2)" },
+            }}
           >
-            {t('navigation.logout')}
+            {t("navigation.mainMenu")}
           </Button>
-        </div>
-      </div>
-      {isAuthenticated && (
-        <div className="mt-auto">
-          
-        </div>
-      )}
-    </div>
+          <Button
+            component={Link}
+            to={ROUTES.FORM}
+            variant="contained"
+            sx={{
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              color: "white",
+              "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.2)" },
+            }}
+          >
+            {t("navigation.form")}
+          </Button>
+          <Button
+            component={Link}
+            to={ROUTES.TABLE}
+            variant="contained"
+            sx={{
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              color: "white",
+              "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.2)" },
+            }}
+          >
+            {t("navigation.table")}
+          </Button>
+          {isAuthenticated && (
+            <Button
+              onClick={handleLogout}
+              variant="contained"
+              sx={{
+                background: "linear-gradient(to right, #ef4444, #f472b6)",
+                color: "white",
+                "&:hover": {
+                  background: "linear-gradient(to right, #dc2626, #db2777)",
+                  transform: "scale(1.05)",
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              {t("navigation.logout")}
+            </Button>
+          )}
+        </Box>
+      </Box>
+      {isAuthenticated && <Box sx={{ mt: "auto" }} />}
+    </SidebarBox>
   );
 }

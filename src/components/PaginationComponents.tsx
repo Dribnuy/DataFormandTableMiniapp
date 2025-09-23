@@ -1,5 +1,22 @@
-import React from 'react';
-import type { ButtonPaginationProps, InfiniteScrollTableProps } from '../store/form-service/types';
+import React from "react";
+import type { ButtonPaginationProps, InfiniteScrollTableProps } from "../store/form-service/types";
+
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const PaginationContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 2,
+  marginTop: theme.spacing(6),
+  flexWrap: "wrap",
+}));
 
 export const ButtonPagination: React.FC<ButtonPaginationProps> = ({
   currentPage,
@@ -7,7 +24,7 @@ export const ButtonPagination: React.FC<ButtonPaginationProps> = ({
   onPageChange,
   loading = false,
   showPageInfo = true,
-  maxVisiblePages = 5
+  maxVisiblePages = 5,
 }) => {
   const getVisiblePages = (): (number | string)[] => {
     if (totalPages <= maxVisiblePages) {
@@ -18,7 +35,6 @@ export const ButtonPagination: React.FC<ButtonPaginationProps> = ({
     const range: (number | string)[] = [];
     const rangeWithDots: (number | string)[] = [];
 
-
     const start = Math.max(2, currentPage - delta);
     const end = Math.min(totalPages - 1, currentPage + delta);
 
@@ -27,7 +43,7 @@ export const ButtonPagination: React.FC<ButtonPaginationProps> = ({
     }
 
     if (start > 2) {
-      rangeWithDots.push(1, '...');
+      rangeWithDots.push(1, "...");
     } else {
       rangeWithDots.push(1);
     }
@@ -35,7 +51,7 @@ export const ButtonPagination: React.FC<ButtonPaginationProps> = ({
     rangeWithDots.push(...range);
 
     if (end < totalPages - 1) {
-      rangeWithDots.push('...', totalPages);
+      rangeWithDots.push("...", totalPages);
     } else if (totalPages > 1) {
       rangeWithDots.push(totalPages);
     }
@@ -52,53 +68,103 @@ export const ButtonPagination: React.FC<ButtonPaginationProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-6 flex-wrap">
-      
-      <button
+    <PaginationContainer>
+      <Button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage <= 1 || loading}
-        className="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+        sx={{
+          px: 1.5,
+          py: 1,
+          borderRadius: 1,
+          backgroundColor: "white",
+          border: "1px solid #d1d5db",
+          color: "#374151",
+          "&:hover": {
+            backgroundColor: "#f9fafb",
+          },
+          "&.Mui-disabled": {
+            opacity: 0.5,
+            cursor: "not-allowed",
+          },
+        }}
         aria-label="Previous page"
       >
         ←
-      </button>
+      </Button>
 
-      
       {visiblePages.map((page, index) => (
-        <button
+        <Button
           key={`page-${index}`}
-          onClick={() => typeof page === 'number' ? handlePageChange(page) : undefined}
-          disabled={loading || page === '...'}
-          className={`px-3 py-2 rounded-md border transition-colors duration-200 ${
-            page === currentPage
-              ? 'bg-blue-500 text-white border-blue-500 shadow-md'
-              : page === '...'
-              ? 'bg-white border-gray-300 text-gray-400 cursor-default'
-              : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
-          } disabled:opacity-50 disabled:cursor-not-allowed`}
-          aria-label={typeof page === 'number' ? `Go to page ${page}` : 'More pages'}
-          aria-current={page === currentPage ? 'page' : undefined}
+          onClick={() => typeof page === "number" ? handlePageChange(page) : undefined}
+          disabled={loading || page === "..."}
+          sx={{
+            px: 1.5,
+            py: 1,
+            borderRadius: 1,
+            border: "1px solid #d1d5db",
+            transition: "all 0.2s ease",
+            ...(page === currentPage
+              ? {
+                  backgroundColor: "#3b82f6",
+                  color: "white",
+                  borderColor: "#3b82f6",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                }
+              : page === "..."
+              ? {
+                  backgroundColor: "white",
+                  color: "#9ca3af",
+                  cursor: "default",
+                }
+              : {
+                  backgroundColor: "white",
+                  color: "#374151",
+                  "&:hover": {
+                    backgroundColor: "#f9fafb",
+                    borderColor: "#a0aec0",
+                  },
+                }),
+            "&.Mui-disabled": {
+              opacity: 0.5,
+              cursor: "not-allowed",
+            },
+          }}
+          aria-label={typeof page === "number" ? `Go to page ${page}` : "More pages"}
+          aria-current={page === currentPage ? "page" : undefined}
         >
           {page}
-        </button>
+        </Button>
       ))}
 
-      
-      <button
+      <Button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage >= totalPages || loading}
-        className="px-3 py-2 rounded-md bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+        sx={{
+          px: 1.5,
+          py: 1,
+          borderRadius: 1,
+          backgroundColor: "white",
+          border: "1px solid #d1d5db",
+          color: "#374151",
+          "&:hover": {
+            backgroundColor: "#f9fafb",
+          },
+          "&.Mui-disabled": {
+            opacity: 0.5,
+            cursor: "not-allowed",
+          },
+        }}
         aria-label="Next page"
       >
         →
-      </button>
-
-      
-      
-    </div>
+      </Button>
+    </PaginationContainer>
   );
 };
 
+const TableContainerStyled = styled(Box)(({ theme }) => ({
+  width: "100%",
+}));
 
 export const InfiniteScrollTable: React.FC<InfiniteScrollTableProps> = ({
   data,
@@ -106,7 +172,7 @@ export const InfiniteScrollTable: React.FC<InfiniteScrollTableProps> = ({
   hasMore,
   onLoadMore,
   children,
-  loadingThreshold = 1000
+  loadingThreshold = 1000,
 }) => {
   const [isNearBottom, setIsNearBottom] = React.useState(false);
 
@@ -127,12 +193,11 @@ export const InfiniteScrollTable: React.FC<InfiniteScrollTableProps> = ({
     };
 
     const throttledHandleScroll = throttle(handleScroll, 200);
-    
-    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
-    
-    return () => window.removeEventListener('scroll', throttledHandleScroll);
-  }, [loading, hasMore, onLoadMore, loadingThreshold]);
 
+    window.addEventListener("scroll", throttledHandleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", throttledHandleScroll);
+  }, [loading, hasMore, onLoadMore, loadingThreshold]);
 
   function throttle<T extends (...args: any[]) => any>(
     func: T,
@@ -158,37 +223,70 @@ export const InfiniteScrollTable: React.FC<InfiniteScrollTableProps> = ({
   }
 
   return (
-    <div className="w-full">
+    <TableContainerStyled>
       {children}
-      
-      
+
       {loading && (
-        <div className="flex justify-center items-center mt-6 py-4" role="status" aria-label="Loading more data">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-          <span className="ml-2 text-gray-600">Завантаження...</span>
-        </div>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 6,
+            paddingY: 4,
+          }}
+          role="status"
+          aria-label="Loading more data"
+        >
+          <CircularProgress size={32} sx={{ color: "#3b82f6" }} />
+          <Typography sx={{ marginLeft: 2, color: "#6b7280" }}>Завантаження...</Typography>
+        </Box>
       )}
 
-      
       {!hasMore && data.length > 0 && (
-        <div className="text-center mt-6 py-4 text-gray-500 border-t border-gray-200">
+        <Box
+          sx={{
+            textAlign: "center",
+            marginTop: 6,
+            paddingY: 4,
+            borderTop: "1px solid #e5e7eb",
+            color: "#a0aec0",
+          }}
+        >
           Всі дані завантажені
-        </div>
+        </Box>
       )}
 
-   
       {!hasMore && data.length === 0 && !loading && (
-        <div className="text-center mt-6 py-8 text-gray-500">
+        <Box
+          sx={{
+            textAlign: "center",
+            marginTop: 6,
+            paddingY: 8,
+            color: "#a0aec0",
+          }}
+        >
           Немає даних для відображення
-        </div>
+        </Box>
       )}
 
-      
-      {process.env.NODE_ENV === 'development' && isNearBottom && (
-        <div className="fixed bottom-4 right-4 bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">
+      {process.env.NODE_ENV === "development" && isNearBottom && (
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: 4,
+            right: 4,
+            backgroundColor: "#fefcbf",
+            color: "#975a16",
+            paddingX: 1,
+            paddingY: 0.5,
+            borderRadius: 1,
+            fontSize: "0.75rem",
+          }}
+        >
           Near bottom
-        </div>
+        </Box>
       )}
-    </div>
+    </TableContainerStyled>
   );
 };
