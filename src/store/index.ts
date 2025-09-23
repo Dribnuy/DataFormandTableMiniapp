@@ -7,7 +7,15 @@ export const store = configureStore({
     form: formReducer,
     auth: authReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ігноруємо певні дії та поля, щоб уникнути помилок із несериалізованими даними
+        ignoredActions: ["form/fetchEntries/pending", "form/fetchEntries/fulfilled", "form/fetchEntries/rejected"],
+        ignoredPaths: ["form.loading", "form.error"],
+      },
+    }),
 });
 
-export type RootState = ReturnType<typeof store.getState>; // Цей рядок автоматично включає всі редюсери
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

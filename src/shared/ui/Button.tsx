@@ -17,7 +17,7 @@ export default function Button({
   type = "button",
 }: ButtonProps) {
   const baseClasses =
-    "w-full py-2 border-2 rounded-2xl bg-blue-500 text-white font-semibold transition-colors duration-300 hover:bg-purple-900 border-black";
+    "w-30 items-center py-2 border-2 rounded-2xl bg-blue-500 text-black font-semibold transition-colors duration-300 hover:bg-purple-900 border-black";
 
   if (to) {
     return (
