@@ -1,6 +1,0 @@
-- uses: FirebaseExtended/action-hosting-deploy@v0
-  with:
-    repoToken: '${{ secrets.GITHUB_TOKEN }}'
-    firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEPLOY_FIREBASE_D9DEF }}'
-    channelId: live
-    projectId: deploy-firebase-d9def
