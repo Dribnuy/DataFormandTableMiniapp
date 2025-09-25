@@ -7,37 +7,32 @@ import { loginUser, loadUserFromStorage } from "../store/auth-service/authSlice"
 import { selectAuth } from "../store/auth-service/selectors";
 import type { User } from "../store/auth-service/types";
 import { ROUTES } from "../core/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-
-const GradientBackground = styled(Box)(({ theme }) => ({
-  flex: 1,
-  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  minHeight: "100vh",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const FormCard = styled(Box)(({ theme }) => ({
-  background: "linear-gradient(to left, #a3bffa, #d4a4eb)",
-  padding: theme.spacing(3),
-  borderRadius: 12,
-  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-  width: 400,
-  display: "flex",
-  flexDirection: "column",
-  gap: theme.spacing(2),
-}));
+import { 
+  Box, 
+  Button, 
+  Container, 
+  TextField, 
+  Typography, 
+  Card,
+  CardContent,
+  Alert,
+  InputAdornment,
+  IconButton
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function LoginPage() {
   const { t } = useTranslation();
+  const theme = useTheme();
   const { register, handleSubmit, formState: { errors } } = useForm<User>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector(selectAuth);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string>("");
 
   useEffect(() => {
     dispatch(loadUserFromStorage());
@@ -45,6 +40,7 @@ export default function LoginPage() {
   }, [dispatch, navigate, user]);
 
   const onSubmit = (data: User) => {
+    setLoginError("");
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
@@ -52,92 +48,113 @@ export default function LoginPage() {
         dispatch(loginUser(parsedUser));
         navigate(ROUTES.TABLE);
       } else {
-        alert(t("auth.invalidCredentials"));
+        setLoginError(t("auth.invalidCredentials"));
       }
     } else {
-      alert(t("auth.noRegisteredUsers"));
+      setLoginError(t("auth.noRegisteredUsers"));
     }
   };
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
       <Sidebar />
-      <GradientBackground>
+      <Box 
+        sx={{ 
+          flex: 1,
+          backgroundColor: theme.palette.background.default,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 2,
+        }}
+      >
         <Container maxWidth="xs">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FormCard>
-             
+          <Card elevation={3}>
+            <CardContent sx={{ p: 4 }}>
               <Typography
-                variant="h5"
-                sx={{ fontWeight: "bold", textAlign: "center", color: "#ffffff", marginBottom: 3 }}
+                variant="h4"
+                component="h1"
+                align="center"
+                color="primary"
+                gutterBottom
+                sx={{ mb: 3 }}
               >
                 {t("auth.loginTitle")}
               </Typography>
 
-              <TextField
-                {...register("username", { required: t("auth.validation.usernameRequired") })}
-                placeholder={t("placeholders.username")}
-                variant="outlined"
-                fullWidth
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#d1d5db" },
-                    "&:hover fieldset": { borderColor: "#a3bffa" },
-                    "&.Mui-focused fieldset": { borderColor: "#4a90e2" },
-                    backgroundColor: "#ffffff",
-                    borderRadius: 1,
-                  },
-                }}
-                error={!!errors.username}
-                helperText={errors.username?.message}
-              />
+              {loginError && (
+                <Alert severity="error" sx={{ mb: 2 }}>
+                  {loginError}
+                </Alert>
+              )}
 
-              <TextField
-                type="password"
-                {...register("password", { required: t("auth.validation.passwordRequired") })}
-                placeholder={t("placeholders.password")}
-                variant="outlined"
-                fullWidth
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#d1d5db" },
-                    "&:hover fieldset": { borderColor: "#a3bffa" },
-                    "&.Mui-focused fieldset": { borderColor: "#4a90e2" },
-                    backgroundColor: "#ffffff",
-                    borderRadius: 1,
-                  },
-                }}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-              />
+              <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+                <TextField
+                  {...register("username", { required: t("auth.validation.usernameRequired") })}
+                  label={t("placeholders.username")}
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.username}
+                  helperText={errors.username?.message}
+                  autoFocus
+                />
 
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  width: "100",
-                  py: 1.5,
-                  borderRadius: 1,
-                  background: "linear-gradient(to right, #4a90e2, #7b61ff)",
-                  color: "#ffffff",
-                  "&:hover": {
-                    background: "linear-gradient(to right, #357abd, #5f4bb6)",
-                  },
-                }}
-              >
-                {t("auth.loginButton")}
-              </Button>
+                <TextField
+                  type={showPassword ? 'text' : 'password'}
+                  {...register("password", { required: t("auth.validation.passwordRequired") })}
+                  label={t("placeholders.password")}
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                          aria-label="toggle password visibility"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
 
-              <Typography variant="body2" sx={{ textAlign: "center", color: "#e0e7ff" }}>
-                {t("auth.noAccount")}{" "}
-                <Link to={ROUTES.REGISTER} style={{ color: "#ffffff", textDecoration: "underline", fontWeight: "bold" }}>
-                  {t("navigation.register")}
-                </Link>
-              </Typography>
-            </FormCard>
-          </form>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, py: 1.5 }}
+                >
+                  {t("auth.loginButton")}
+                </Button>
+
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="body2" color="textSecondary">
+                    {t("auth.noAccount")}{" "}
+                    <Link 
+                      to={ROUTES.REGISTER} 
+                      style={{ 
+                        color: theme.palette.primary.main,
+                        textDecoration: 'none',
+                        fontWeight: 500
+                      }}
+                    >
+                      {t("navigation.register")}
+                    </Link>
+                  </Typography>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
         </Container>
-      </GradientBackground>
+      </Box>
     </Box>
   );
 }

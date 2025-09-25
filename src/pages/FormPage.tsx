@@ -6,7 +6,7 @@ import { addFormData } from "../store/form-service/formSlice";
 import Sidebar from "../components/Sidebar";
 import { v4 as uuidv4 } from "uuid";
 import type { FormData } from "../store/form-service/types";
-import { ROUTES } from "../core/constants";
+import { ROUTES, AGE_MIN } from "../core/constants";
 
 import {
   Box,
@@ -156,7 +156,7 @@ export default function FormPage() {
                 type="number"
                 {...register("age", {
                   required: t("form.validation.ageRequired"),
-                  min: { value: 1, message: t("form.validation.ageMin") },
+                  min: { value: AGE_MIN, message: t("form.validation.ageMin") },
                 })}
                 label={t("placeholders.age")}
                 variant="outlined"
