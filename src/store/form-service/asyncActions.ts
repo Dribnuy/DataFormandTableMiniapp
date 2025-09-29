@@ -18,9 +18,9 @@ export const fetchEntries = createAsyncThunk<PaginationResponse, FetchEntriesPar
   "form/fetchEntries",
   async ({ page, limit, useMockData = false }, { rejectWithValue }) => {
     try {
-      await delay(500); // Simulate API delay
+      await delay(500); 
 
-      // Якщо useMockData = false, повертаємо пустий масив
+     
       if (!useMockData) {
         return {
           total: 0,
@@ -28,7 +28,7 @@ export const fetchEntries = createAsyncThunk<PaginationResponse, FetchEntriesPar
         };
       }
 
-      // Якщо в майбутньому захочете повернутися до мокових даних, логіка тут
+    
       return rejectWithValue("Mock data disabled");
     } catch (error) {
       return rejectWithValue("Failed to fetch entries");

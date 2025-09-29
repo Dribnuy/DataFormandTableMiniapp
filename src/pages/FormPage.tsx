@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useTranslation } from 'react-i18next';
 import { addFormData } from "../store/form-service/formSlice";
 import Sidebar from "../components/Sidebar";
 import { v4 as uuidv4 } from "uuid";
@@ -8,6 +9,7 @@ import type { FormData } from "../store/form-service/types";
 import { ROUTES } from "../core/constants";
 
 export default function FormPage() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -41,12 +43,12 @@ export default function FormPage() {
             onSubmit={handleSubmit(onSubmit)}
             className="bg-gradient-to-l from-blue-200 to-red-300 p-6 rounded-lg shadow-md w-96 space-y-4"
           >
-            <h2 className="text-2xl font-bold text-center">Form Data</h2>
+            <h2 className="text-2xl font-bold text-center">{t('form.title')}</h2>
 
             <div>
               <input
-                {...register("firstName", { required: "Name is required" })}
-                placeholder="Name"
+                {...register("firstName", { required: t('form.validation.firstNameRequired') })}
+                placeholder={t('placeholders.firstName')}
                 className="w-full px-3 py-2 border rounded-md bg-white"
               />
               {errors.firstName && (
@@ -58,8 +60,8 @@ export default function FormPage() {
 
             <div>
               <input
-                {...register("lastName", { required: "Surname is required" })}
-                placeholder="Surname"
+                {...register("lastName", { required: t('form.validation.lastNameRequired') })}
+                placeholder={t('placeholders.lastName')}
                 className="w-full px-3 py-2 border rounded-md bg-white"
               />
               {errors.lastName && (
@@ -73,10 +75,10 @@ export default function FormPage() {
               <input
                 type="number"
                 {...register("age", {
-                  required: "Age is required",
-                  min: { value: 1, message: "Age must be at least 1" },
+                  required: t('form.validation.ageRequired'),
+                  min: { value: 1, message: t('form.validation.ageMin') },
                 })}
-                placeholder="Age"
+                placeholder={t('placeholders.age')}
                 className="w-full px-3 py-2 border rounded-md bg-white"
               />
               {errors.age && (
@@ -86,7 +88,7 @@ export default function FormPage() {
 
             <textarea
               {...register("description")}
-              placeholder="Description"
+              placeholder={t('placeholders.description')}
               className="w-full px-3 py-2 border rounded-md bg-white"
             />
 
@@ -94,7 +96,7 @@ export default function FormPage() {
               type="submit"
               className="w-full bg-blue-500 text-white py-2 rounded-lg transition-colors duration-300 hover:bg-purple-900 border-1 border-black"
             >
-              Submit
+              {t('form.submit')}
             </button>
           </form>
         </div>

@@ -1,0 +1,88 @@
+{
+  "app": {
+    "title": "Witaj w mini aplikacji tabela i formularz React",
+    "menu": "Menu",
+    "language": "Język"
+  },
+  "navigation": {
+    "mainMenu": "Menu Główne",
+    "form": "Formularz",
+    "table": "Tabela",
+    "login": "Logowanie",
+    "register": "Rejestracja",
+    "logout": "Wyloguj"
+  },
+  "auth": {
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "email": "E-mail",
+    "loginTitle": "Logowanie",
+    "registerTitle": "Rejestracja",
+    "loginButton": "Zaloguj",
+    "registerButton": "Zarejestruj",
+    "noAccount": "Nie masz konta?",
+    "hasAccount": "Masz już konto?",
+    "invalidCredentials": "Nieprawidłowe dane logowania",
+    "noRegisteredUsers": "Brak zarejestrowanych użytkowników",
+    "validation": {
+      "usernameRequired": "Nazwa użytkownika jest wymagana",
+      "passwordRequired": "Hasło jest wymagane",
+      "passwordMinLength": "Hasło musi mieć co najmniej 6 znaków",
+      "emailRequired": "E-mail jest wymagany",
+      "emailInvalid": "Nieprawidłowy e-mail"
+    }
+  },
+  "form": {
+    "title": "Dane formularza",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "age": "Wiek",
+    "description": "Opis",
+    "submit": "Wyślij",
+    "backToTable": "Powrót do formularza",
+    "validation": {
+      "firstNameRequired": "Imię jest wymagane",
+      "lastNameRequired": "Nazwisko jest wymagane",
+      "ageRequired": "Wiek jest wymagany",
+      "ageMin": "Wiek musi wynosić co najmniej 1"
+    }
+  },
+  "table": {
+    "title": "Tabela danych",
+    "name": "Imię",
+    "surname": "Nazwisko",
+    "age": "Wiek",
+    "description": "Opis",
+    "actions": "Akcje",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "editEntry": "Edytuj wpis",
+    "filters": {
+      "ageMin": "Min. wiek",
+      "ageMax": "Max. wiek",
+      "searchSubstring": "Szukaj",
+      "apply": "Zastosuj filtry",
+      "clear": "Wyczyść filtry",
+      "itemsPerPage": "Elementów na stronie:"
+    },
+    "pagination": {
+      "buttonPagination": "Paginacja przyciskami",
+      "infiniteScroll": "Nieskończone przewijanie",
+      "noMoreData": "Brak więcej danych do załadowania",
+      "showing": "Pokazuje {{count}} z {{total}} wpisów",
+      "noData": "Nie masz jeszcze żadnych danych.",
+      "noDataHint": "Spróbuj dodać dane przez formularz lub dostosuj filtry."
+    }
+  },
+  "placeholders": {
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "age": "Wiek",
+    "description": "Opis",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "email": "E-mail"
+  }
+}

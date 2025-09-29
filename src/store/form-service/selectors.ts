@@ -38,7 +38,7 @@ export const selectFormData = (state: RootState) => {
     });
   }
 
-  // Пагінація
+ 
   const { page, limit } = state.form.pagination;
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
@@ -50,4 +50,4 @@ export const selectFilters = (state: RootState) => state.form.filters;
 export const selectPagination = (state: RootState) => state.form.pagination || { page: 1, limit: 10 };
 export const selectLoading = (state: RootState) => state.form.loading || false;
 export const selectError = (state: RootState) => state.form.error || null;
-export const selectTotal = (state: RootState) => state.form.userData.length || 0; // Оновлено total на основі userData
+export const selectTotal = (state: RootState) => state.form.userData.length || 0;

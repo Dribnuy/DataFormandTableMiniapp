@@ -1,0 +1,88 @@
+{
+  "app": {
+    "title": "Welcome to Table and Form React mini app",
+    "menu": "Menu",
+    "language": "Language"
+  },
+  "navigation": {
+    "mainMenu": "Main Menu",
+    "form": "Form",
+    "table": "Table",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "auth": {
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "loginTitle": "Login",
+    "registerTitle": "Register",
+    "loginButton": "Login",
+    "registerButton": "Register",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "invalidCredentials": "Invalid credentials",
+    "noRegisteredUsers": "No registered users",
+    "validation": {
+      "usernameRequired": "Username is required",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email"
+    }
+  },
+  "form": {
+    "title": "Form Data",
+    "firstName": "Name",
+    "lastName": "Surname",
+    "age": "Age",
+    "description": "Description",
+    "submit": "Submit",
+    "backToTable": "Back To Form",
+    "validation": {
+      "firstNameRequired": "Name is required",
+      "lastNameRequired": "Surname is required",
+      "ageRequired": "Age is required",
+      "ageMin": "Age must be at least 1"
+    }
+  },
+  "table": {
+    "title": "Table of Data",
+    "name": "Name",
+    "surname": "Surname",
+    "age": "Age",
+    "description": "Description",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "editEntry": "Edit Entry",
+    "filters": {
+      "ageMin": "Age Min",
+      "ageMax": "Age Max",
+      "searchSubstring": "Search Substring",
+      "apply": "Apply Filters",
+      "clear": "Clear Filters",
+      "itemsPerPage": "Items per page:"
+    },
+    "pagination": {
+      "buttonPagination": "Button Pagination",
+      "infiniteScroll": "Infinite Scroll",
+      "noMoreData": "No more data to load",
+      "showing": "Showing {{count}} of {{total}} entries",
+      "noData": "You don't have any data yet.",
+      "noDataHint": "Try adding some data via the form or adjust your filters."
+    }
+  },
+  "placeholders": {
+    "firstName": "Name",
+    "lastName": "Surname",
+    "age": "Age",
+    "description": "Description",
+    "username": "Username",
+    "password": "Password",
+    "email": "Email"
+  }
+}

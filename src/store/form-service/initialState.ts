@@ -1,8 +1,8 @@
 import type { FormState } from "./types";
 
 export const initialState: FormState = {
-  data: [], // Мокові дані
-  userData: [], // Користувацькі дані
+  data: [],
+  userData: [], 
   sortConfig: undefined,
   filters: undefined,
   pagination: { page: 1, limit: 10 },

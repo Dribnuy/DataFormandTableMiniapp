@@ -1,0 +1,88 @@
+{
+  "app": {
+    "title": "Bienvenue dans la mini-application table et formulaire React",
+    "menu": "Menu",
+    "language": "Langue"
+  },
+  "navigation": {
+    "mainMenu": "Menu Principal",
+    "form": "Formulaire",
+    "table": "Tableau",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion"
+  },
+  "auth": {
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "email": "E-mail",
+    "loginTitle": "Connexion",
+    "registerTitle": "Inscription",
+    "loginButton": "Se connecter",
+    "registerButton": "S'inscrire",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "invalidCredentials": "Identifiants invalides",
+    "noRegisteredUsers": "Aucun utilisateur enregistré",
+    "validation": {
+      "usernameRequired": "Le nom d'utilisateur est requis",
+      "passwordRequired": "Le mot de passe est requis",
+      "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "E-mail invalide"
+    }
+  },
+  "form": {
+    "title": "Données du formulaire",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "age": "Âge",
+    "description": "Description",
+    "submit": "Envoyer",
+    "backToTable": "Retour au formulaire",
+    "validation": {
+      "firstNameRequired": "Le prénom est requis",
+      "lastNameRequired": "Le nom est requis",
+      "ageRequired": "L'âge est requis",
+      "ageMin": "L'âge doit être au moins 1"
+    }
+  },
+  "table": {
+    "title": "Tableau des données",
+    "name": "Prénom",
+    "surname": "Nom",
+    "age": "Âge",
+    "description": "Description",
+    "actions": "Actions",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "editEntry": "Modifier l'entrée",
+    "filters": {
+      "ageMin": "Âge min.",
+      "ageMax": "Âge max.",
+      "searchSubstring": "Rechercher",
+      "apply": "Appliquer les filtres",
+      "clear": "Effacer les filtres",
+      "itemsPerPage": "Éléments par page :"
+    },
+    "pagination": {
+      "buttonPagination": "Pagination par boutons",
+      "infiniteScroll": "Défilement infini",
+      "noMoreData": "Plus de données à charger",
+      "showing": "Affichage {{count}} sur {{total}} entrées",
+      "noData": "Vous n'avez pas encore de données.",
+      "noDataHint": "Essayez d'ajouter des données via le formulaire ou ajustez vos filtres."
+    }
+  },
+  "placeholders": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "age": "Âge",
+    "description": "Description",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "email": "E-mail"
+  }
+}
