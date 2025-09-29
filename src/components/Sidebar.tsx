@@ -1,47 +1,114 @@
-import { useTranslation } from 'react-i18next';
-import Button from "../shared/ui/Button";
-import { ROUTES } from "../core/constants";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../store/auth-service/authSlice";
 import { selectIsAuthenticated } from "../store/auth-service/selectors";
-import LanguageSelector from './LanguageSelector';
+import LanguageSelector from "./LanguageSelector";
+import { 
+  Box, 
+  Button, 
+  Typography, 
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Divider,
+  useTheme
+} from "@mui/material";
+import { ROUTES } from "../core/constants";
+
+const SIDEBAR_WIDTH = 240;
 
 export default function Sidebar() {
   const { t } = useTranslation();
+  const theme = useTheme();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    navigate(ROUTES.LOGIN); 
   };
 
-  return (
-    <div className="w-64 h-auto bg-gradient-to-r from-purple-400 to-blue-600 border-r border-black text-white p-4 flex flex-col justify-between shadow-lg">
-      <div>
-        <h2 className="text-xl font-bold mb-4 text-center">{t('app.menu')}</h2>
-        
-        
-        <div className="mb-6 flex justify-center">
-          <LanguageSelector />
-        </div>
+  const navigationItems = [
+    { label: t("navigation.mainMenu"), path: ROUTES.HOME },
+    { label: t("navigation.form"), path: ROUTES.FORM },
+    { label: t("navigation.table"), path: ROUTES.TABLE },
+  ];
 
-        <div className="flex flex-col items-center space-y-4">
-          <Button to={ROUTES.HOME}>{t('navigation.mainMenu')}</Button>
-          <Button to={ROUTES.FORM}>{t('navigation.form')}</Button>
-          <Button to={ROUTES.TABLE}>{t('navigation.table')}</Button>
+  return (
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: SIDEBAR_WIDTH,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: SIDEBAR_WIDTH,
+          boxSizing: 'border-box',
+          backgroundColor: theme.palette.primary.main,
+          color: 'white',
+        },
+      }}
+    >
+      <Box sx={{ p: 2 }}>
+        <Typography variant="h6" align="center" sx={{ mb: 2, fontWeight: 'bold' }}>
+          {t("app.menu")}
+        </Typography>
+
+        <Box sx={{ mb: 3, display: "flex", justifyContent: "center" }}>
+          <LanguageSelector />
+        </Box>
+      </Box>
+
+      <Divider sx={{ backgroundColor: 'rgba(255,255,255,0.2)' }} />
+
+      <List sx={{ flexGrow: 1, px: 1 }}>
+        {navigationItems.map((item) => (
+          <ListItem key={item.path} disablePadding sx={{ mb: 1 }}>
+            <ListItemButton
+              component={Link}
+              to={item.path}
+              sx={{
+                borderRadius: 2,
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                },
+              }}
+            >
+              <ListItemText 
+                primary={item.label}
+                sx={{ 
+                  '& .MuiListItemText-primary': {
+                    fontSize: '0.9rem',
+                    fontWeight: 500
+                  }
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+
+      {isAuthenticated && (
+        <Box sx={{ p: 2 }}>
           <Button
             onClick={handleLogout}
-            className="w-full  bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold py-2 rounded-lg shadow-lg hover:from-red-600 hover:to-pink-700 transition-all duration-300 transform hover:scale-105"
+            variant="contained"
+            fullWidth
+            color="secondary"
+            sx={{
+              backgroundColor: theme.palette.error.main,
+              '&:hover': {
+                backgroundColor: theme.palette.error.dark,
+              },
+            }}
           >
-            {t('navigation.logout')}
+            {t("navigation.logout")}
           </Button>
-        </div>
-      </div>
-      {isAuthenticated && (
-        <div className="mt-auto">
-          
-        </div>
+        </Box>
       )}
-    </div>
+    </Drawer>
   );
 }

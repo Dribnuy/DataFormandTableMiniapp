@@ -1,40 +1,15 @@
-// firebase/config.ts
-import { initializeApp } from 'firebase/app';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
-import { getStorage, connectStorageEmulator } from 'firebase/storage';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+  apiKey: "AIzaSyDd4KaiwOLoRiUQzfN6Tq3jZyngU1xwnxU",
+  authDomain: "fir-deploy-df8e4.firebaseapp.com",
+  projectId: "fir-deploy-df8e4",
+  storageBucket: "fir-deploy-df8e4.firebasestorage.app",
+  messagingSenderId: "744164405581",
+  appId: "1:744164405581:web:4c39247d006643ed284704"
 };
 
-// Ініціалізація Firebase
-const app = initializeApp(firebaseConfig);
-
-// Ініціалізація сервісів
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-
-// Підключення емуляторів для розробки (опційно)
-if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
-  const isEmulatorConnected = sessionStorage.getItem('firebase-emulator-connected');
-  
-  if (!isEmulatorConnected) {
-    try {
-      connectAuthEmulator(auth, 'http://localhost:9099');
-      connectFirestoreEmulator(db, 'localhost', 8080);
-      connectStorageEmulator(storage, 'localhost', 9199);
-      sessionStorage.setItem('firebase-emulator-connected', 'true');
-    } catch (error) {
-      console.log('Emulator connection failed:', error);
-    }
-  }
-}
-
-export default app;
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import Sidebar from "../components/Sidebar";
 import {
   selectFormData,
@@ -26,7 +26,70 @@ import { ROUTES } from "../core/constants";
 import type { AppDispatch } from "../store";
 import { ButtonPagination } from "../components/PaginationComponents";
 
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Input,
+  Paper,
+  Select,
+  MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+  Card,
+  CardContent,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+
 type PaginationType = "button" | "scroll";
+
+const GradientBox = styled(Box)(({ theme }) => ({
+  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+  minHeight: "100vh",
+  display: "flex",
+}));
+
+const ContentBox = styled(Box)(({ theme }) => ({
+  flex: 1,
+  padding: theme.spacing(2),
+  display: "flex",
+  flexDirection: "column",
+}));
+
+const FilterCard = styled(Card)(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderRadius: 12,
+  background: "linear-gradient(to left, #a3bffa, #d4a4eb)", // Змінено на градієнт для узгодженості
+  marginBottom: theme.spacing(3), // Збільшено відступ
+}));
+
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  backgroundColor: "#ffffff",
+  borderRadius: 12,
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+  marginBottom: theme.spacing(2),
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  fontWeight: 600,
+  backgroundColor: "#4a90e2",
+  color: "#ffffff",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+  "&:hover": {
+    backgroundColor: "#357abd",
+  },
+}));
 
 export default function TablePage() {
   const { t } = useTranslation();
@@ -53,7 +116,6 @@ export default function TablePage() {
   const [paginationType, setPaginationType] = useState<PaginationType>("button");
   const [infiniteData, setInfiniteData] = useState<FormData[]>([]);
 
-  
   useEffect(() => {
     if (paginationType === "button" && total === 0) {
       dispatch(fetchEntries({ page: pagination.page, limit: pagination.limit, useMockData: false }));
@@ -63,7 +125,6 @@ export default function TablePage() {
     }
   }, [dispatch, paginationType, pagination.limit, total]);
 
-  
   useEffect(() => {
     if (paginationType === "scroll" && data.length > 0) {
       if (pagination.page === 1) {
@@ -74,7 +135,6 @@ export default function TablePage() {
     }
   }, [data, pagination.page, paginationType]);
 
- 
   useEffect(() => {
     if (paginationType === "scroll") {
       const handleScroll = () => {
@@ -152,221 +212,273 @@ export default function TablePage() {
   const totalPages = Math.ceil(total / pagination.limit);
   const currentData = paginationType === "scroll" ? infiniteData : data;
 
-  const renderTable = () => (
-    <div className="w-full max-w-6xl">
-      <table className="w-full table-auto border-collapse border-2 border-white bg-white/90 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg">
-        <thead>
-          <tr className="bg-gradient-to-r from-blue-600 to-purple-700">
-            <th
-              className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
-              onClick={() => handleSort("firstName")}
-            >
-              {t('table.name')}{" "}
-              {sortConfig?.key === "firstName" &&
-                (sortConfig.direction === "asc" ? "↑" : "↓")}
-            </th>
-            <th
-              className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
-              onClick={() => handleSort("lastName")}
-            >
-              {t('table.surname')}{" "}
-              {sortConfig?.key === "lastName" &&
-                (sortConfig.direction === "asc" ? "↑" : "↓")}
-            </th>
-            <th
-              className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
-              onClick={() => handleSort("age")}
-            >
-              {t('table.age')}{" "}
-              {sortConfig?.key === "age" && (sortConfig.direction === "asc" ? "↑" : "↓")}
-            </th>
-            <th
-              className="border border-white px-4 py-3 text-black font-bold cursor-pointer"
-              onClick={() => handleSort("description")}
-            >
-              {t('table.description')}{" "}
-              {sortConfig?.key === "description" &&
-                (sortConfig.direction === "asc" ? "↑" : "↓")}
-            </th>
-            <th
-              className="border border-white px-4 py-3 text-black font-semibold"
-              style={{ minWidth: "150px" }}
-            >
-              {t('table.actions')}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentData.map((row, i) => (
-            <tr key={row.id} className="hover:bg-blue-50 transition-colors">
-              <td className="border border-gray-300 px-4 py-3 text-gray-800">
-                {row.firstName}
-              </td>
-              <td className="border border-gray-300 px-4 py-3 text-gray-800">
-                {row.lastName}
-              </td>
-              <td className="border border-gray-300 px-4 py-3 text-gray-800">
-                {row.age}
-              </td>
-              <td className="border border-gray-300 px-4 py-3 text-gray-800 max-w-xs truncate">
-                {row.description}
-              </td>
-              <td className="border border-gray-300 px-4 py-3">
-                <div className="flex gap-2 justify-center">
-                  <button
-                    onClick={() => handleEdit(i)}
-                    className="px-3 py-1 bg-yellow-500 text-white text-sm font-medium rounded hover:bg-yellow-600 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300"
-                    style={{ minWidth: "60px" }}
-                  >
-                    {t('table.edit')}
-                  </button>
-                  <button
-                    onClick={() => handleDelete(i)}
-                    className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded hover:bg-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-300"
-                    style={{ minWidth: "60px" }}
-                  >
-                    {t('table.delete')}
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  const getSortIcon = (column: keyof FormData) => {
+    if (sortConfig?.key === column) {
+      return sortConfig.direction === "asc" ? "↑" : "↓";
+    }
+    return "";
+  };
 
   return (
-    <div className="flex">
+    <GradientBox>
       <Sidebar />
-      <div className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600">
-        <div className="flex-1 min-h-screen flex flex-col items-center p-6">
-          <h2 className="text-2xl font-bold mb-4 text-white">{t('table.title')}</h2>
+      <ContentBox>
+        <Container maxWidth="xl">
+          <Typography
+            variant="h4"
+            component="h2"
+            sx={{
+              color: "#e0e7ff",
+              fontWeight: "bold",
+              marginBottom: 4,
+              textAlign: "center",
+              textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+            }}
+          >
+            {t("table.title")}
+          </Typography>
 
-          
-          <div className="mb-4 flex gap-4">
-            <button
+          <Box sx={{ display: "flex", justifyContent: "center", gap: 2, marginBottom: 4 }}>
+            <Button
+              variant={paginationType === "button" ? "contained" : "outlined"}
               onClick={() => setPaginationType("button")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                paginationType === "button"
-                  ? "bg-white text-blue-600"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-              }`}
+              sx={{
+                backgroundColor: paginationType === "button" ? "#ffffff" : "transparent",
+                color: paginationType === "button" ? "#4a90e2" : "#e0e7ff",
+                borderColor: "#e0e7ff",
+                "&:hover": {
+                  backgroundColor: paginationType === "button" ? "#f0f4ff" : "rgba(224, 231, 255, 0.2)",
+                },
+              }}
             >
-              {t('table.pagination.buttonPagination')}
-            </button>
-            <button
+              {t("table.pagination.buttonPagination")}
+            </Button>
+            <Button
+              variant={paginationType === "scroll" ? "contained" : "outlined"}
               onClick={() => setPaginationType("scroll")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                paginationType === "scroll"
-                  ? "bg-white text-blue-600"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-              }`}
+              sx={{
+                backgroundColor: paginationType === "scroll" ? "#ffffff" : "transparent",
+                color: paginationType === "scroll" ? "#4a90e2" : "#e0e7ff",
+                borderColor: "#e0e7ff",
+                "&:hover": {
+                  backgroundColor: paginationType === "scroll" ? "#f0f4ff" : "rgba(224, 231, 255, 0.2)",
+                },
+              }}
             >
-              {t('table.pagination.infiniteScroll')}
-            </button>
-          </div>
+              {t("table.pagination.infiniteScroll")}
+            </Button>
+          </Box>
 
-          <div className="mb-6 w-full max-w-xl bg-gradient-to-r from-orange-500 to-purple-600 p-4 rounded-lg shadow-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">
-                  {t('table.filters.ageMin')}
-                </label>
-                <input
+          <FilterCard>
+            <CardContent>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, marginBottom: 3 }}>
+                <Typography variant="h6" color="#a3bffa">
+                  Filters
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2, marginBottom: 3 }}>
+                <TextField
                   type="number"
                   value={ageMin ?? ""}
                   onChange={(e) =>
-                    setAgeMin(
-                      e.target.value ? parseInt(e.target.value) : undefined
-                    )
+                    setAgeMin(e.target.value ? parseInt(e.target.value) : undefined)
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white"
+                  placeholder={t("table.filters.ageMin")}
+                  fullWidth
+                  InputProps={{ sx: { backgroundColor: "#ffffff", borderRadius: 8 } }}
+                  sx={{ maxWidth: { sm: "30%" } }}
                 />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">
-                  {t('table.filters.ageMax')}
-                </label>
-                <input
+                <TextField
                   type="number"
                   value={ageMax ?? ""}
                   onChange={(e) =>
-                    setAgeMax(
-                      e.target.value ? parseInt(e.target.value) : undefined
-                    )
+                    setAgeMax(e.target.value ? parseInt(e.target.value) : undefined)
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white"
+                  placeholder={t("table.filters.ageMax")}
+                  fullWidth
+                  InputProps={{ sx: { backgroundColor: "#ffffff", borderRadius: 8 } }}
+                  sx={{ maxWidth: { sm: "30%" } }}
                 />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">
-                  {t('table.filters.searchSubstring')}
-                </label>
-                <input
+                <TextField
                   type="text"
                   value={substring}
                   onChange={(e) => setSubstring(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white"
+                  placeholder={t("table.filters.searchSubstring")}
+                  fullWidth
+                  InputProps={{ sx: { backgroundColor: "#ffffff", borderRadius: 8 } }}
+                  sx={{ maxWidth: { sm: "30%" } }}
                 />
-              </div>
-            </div>
-            <div className="mt-4 flex gap-2 justify-between flex-wrap">
-              <div className="flex gap-2">
-                <button
-                  onClick={applyFilters}
-                  disabled={loading}
-                  className="px-4 py-2 rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:from-pink-500 hover:to-yellow-500 transition-all duration-300 ease-in-out disabled:opacity-50"
-                >
-                  {t('table.filters.apply')}
-                </button>
-                <button
-                  onClick={clearFilters}
-                  disabled={loading}
-                  className="px-4 py-2 rounded-xl text-white bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-700 hover:to-gray-800 transition-all duration-300 ease-in-out disabled:opacity-50"
-                >
-                  {t('table.filters.clear')}
-                </button>
-              </div>
-              <div className="flex items-center gap-2">
-                <label className="text-white text-sm font-medium">
-                  {t('table.filters.itemsPerPage')}
-                </label>
-                <select
-                  value={pagination.limit}
-                  onChange={(e) => handleLimitChange(parseInt(e.target.value))}
-                  className="px-2 py-1 rounded border border-gray-300 bg-white text-gray-800"
-                  disabled={loading}
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                </select>
-              </div>
-            </div>
-          </div>
+              </Box>
 
-          
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  justifyContent: "space-between",
+                  flexDirection: { xs: "column", sm: "row" },
+                  flexWrap: "wrap",
+                }}
+              >
+                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+                  <Button
+                    variant="contained"
+                    onClick={applyFilters}
+                    disabled={loading}
+                    sx={{
+                      background: "linear-gradient(to right, #4a90e2, #7b61ff)",
+                      color: "#ffffff",
+                      "&:hover": {
+                        background: "linear-gradient(to right, #357abd, #5f4bb6)",
+                      },
+                      "&:disabled": { opacity: 0.5 },
+                    }}
+                  >
+                    {t("table.filters.apply")}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={clearFilters}
+                    disabled={loading}
+                    sx={{
+                      background: "linear-gradient(to right, #718096, #4a5568)",
+                      color: "#ffffff",
+                      "&:hover": {
+                        background: "linear-gradient(to right, #4a5568, #2d3748)",
+                      },
+                      "&:disabled": { opacity: 0.5 },
+                    }}
+                  >
+                    {t("table.filters.clear")}
+                  </Button>
+                </Box>
+
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <Typography variant="body2" color="#a3bffa">
+                    {t("table.filters.itemsPerPage")}
+                  </Typography>
+                  <Select
+                    value={pagination.limit}
+                    onChange={(e) => handleLimitChange(Number(e.target.value))}
+                    disabled={loading}
+                    sx={{
+                      backgroundColor: "#ffffff",
+                      borderRadius: 8,
+                      minWidth: 80,
+                      height: 36,
+                      color: "#2d3748",
+                    }}
+                  >
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={10}>10</MenuItem>
+                    <MenuItem value={20}>20</MenuItem>
+                    <MenuItem value={50}>50</MenuItem>
+                  </Select>
+                </Box>
+              </Box>
+            </CardContent>
+          </FilterCard>
+
           {loading && currentData.length === 0 && (
-            <div className="flex justify-center items-center py-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-            </div>
+            <Box sx={{ display: "flex", justifyContent: "center", paddingY: 4 }}>
+              <Box
+                sx={{
+                  width: 48,
+                  height: 48,
+                  border: "4px solid #e0e7ff",
+                  borderBottom: "4px solid transparent",
+                  borderRadius: "50%",
+                  animation: "spin 1s linear infinite",
+                }}
+              />
+            </Box>
           )}
 
-         
           {!loading && currentData.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-white text-lg">{t('table.pagination.noData')}</p>
-              <p className="text-white/70 text-sm mt-2">
-                {t('table.pagination.noDataHint')}
-              </p>
-            </div>
+            <Paper sx={{ padding: 4, textAlign: "center", backgroundColor: "#f7fafc", borderRadius: 12 }}>
+              <Typography variant="h6" color="#718096" gutterBottom>
+                {t("table.pagination.noData")}
+              </Typography>
+              <Typography variant="body2" color="#a0aec0" sx={{ marginBottom: 2 }}>
+                {t("table.pagination.noDataHint")}
+              </Typography>
+              <Button
+                component={Link}
+                to={ROUTES.FORM}
+                variant="contained"
+                sx={{
+                  backgroundColor: "#4a90e2",
+                  color: "#ffffff",
+                  "&:hover": { backgroundColor: "#357abd" },
+                }}
+              >
+                {t("navigation.form")}
+              </Button>
+            </Paper>
           ) : (
             <>
-              {renderTable()}
+              <StyledTableContainer>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell onClick={() => handleSort("firstName")}>
+                        {t("table.name")} {getSortIcon("firstName")}
+                      </StyledTableCell>
+                      <StyledTableCell onClick={() => handleSort("lastName")}>
+                        {t("table.surname")} {getSortIcon("lastName")}
+                      </StyledTableCell>
+                      <StyledTableCell onClick={() => handleSort("age")}>
+                        {t("table.age")} {getSortIcon("age")}
+                      </StyledTableCell>
+                      <StyledTableCell onClick={() => handleSort("description")}>
+                        {t("table.description")} {getSortIcon("description")}
+                      </StyledTableCell>
+                      <StyledTableCell sx={{ minWidth: 150 }}>
+                        {t("table.actions")}
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {currentData.map((row, i) => (
+                      <TableRow
+                        key={row.id}
+                        sx={{
+                          "&:nth-of-type(odd)": { backgroundColor: "#f7fafc" },
+                          "&:hover": { backgroundColor: "#edf2f7" },
+                        }}
+                      >
+                        <TableCell sx={{ color: "#2d3748" }}>{row.firstName}</TableCell>
+                        <TableCell sx={{ color: "#2d3748" }}>{row.lastName}</TableCell>
+                        <TableCell sx={{ color: "#2d3748" }}>{row.age}</TableCell>
+                        <TableCell sx={{ maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#2d3748" }}>
+                          {row.description}
+                        </TableCell>
+                        <TableCell>
+                          <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
+                            <Button
+                              onClick={() => handleEdit(i)}
+                              variant="contained"
+                              color="warning"
+                              sx={{ minWidth: 60, padding: "4px 8px", backgroundColor: "#f6ad55", "&:hover": { backgroundColor: "#ed8936" } }}
+                            >
+                              {t("table.edit")}
+                            </Button>
+                            <Button
+                              onClick={() => handleDelete(i)}
+                              variant="contained"
+                              color="error"
+                              sx={{ minWidth: 60, padding: "4px 8px", backgroundColor: "#e53e3e", "&:hover": { backgroundColor: "#c53030" } }}
+                            >
+                              {t("table.delete")}
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </StyledTableContainer>
 
-              
               {paginationType === "button" && (
                 <ButtonPagination
                   currentPage={pagination.page}
@@ -376,104 +488,126 @@ export default function TablePage() {
                 />
               )}
 
-              
               {paginationType === "scroll" && loading && currentData.length > 0 && (
-                <div className="flex justify-center mt-4">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-                </div>
+                <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      border: "4px solid #e0e7ff",
+                      borderBottom: "4px solid transparent",
+                      borderRadius: "50%",
+                      animation: "spin 1s linear infinite",
+                    }}
+                  />
+                </Box>
               )}
 
-              
               {paginationType === "scroll" &&
                 !loading &&
                 currentData.length > 0 &&
                 pagination.page * pagination.limit >= total && (
-                  <div className="text-center mt-4 text-white/70">
-                    {t('table.pagination.noMoreData')}
-                  </div>
+                  <Paper sx={{ textAlign: "center", marginTop: 2, padding: 2, backgroundColor: "#f7fafc", borderRadius: 12 }}>
+                    <Typography color="#a0aec0">
+                      {t("table.pagination.noMoreData")}
+                    </Typography>
+                  </Paper>
                 )}
             </>
           )}
 
-          {/* Stats */}
           {currentData.length > 0 && (
-            <div className="mt-4 text-white text-sm">
-              {t('table.pagination.showing', { count: currentData.length, total })}
-            </div>
+            <Paper sx={{ marginTop: 2, padding: 2, backgroundColor: "#f7fafc", borderRadius: 12, textAlign: "center" }}>
+              <Typography variant="body2" color="#718096">
+                {t("table.pagination.showing", { count: currentData.length, total })}
+              </Typography>
+            </Paper>
           )}
 
-          {/* Edit Modal */}
-          {editIndex !== null && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
-              <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
-                <h3 className="text-xl font-bold mb-4 text-gray-800">
-                  {t('table.editEntry')}
-                </h3>
-                <div className="space-y-4">
-                  <input
-                    value={editData.firstName}
-                    onChange={(e) =>
-                      setEditData({ ...editData, firstName: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder={t('placeholders.firstName')}
-                  />
-                  <input
-                    value={editData.lastName}
-                    onChange={(e) =>
-                      setEditData({ ...editData, lastName: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder={t('placeholders.lastName')}
-                  />
-                  <input
-                    type="number"
-                    value={editData.age}
-                    onChange={(e) =>
-                      setEditData({
-                        ...editData,
-                        age: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder={t('placeholders.age')}
-                  />
-                  <textarea
-                    value={editData.description}
-                    onChange={(e) =>
-                      setEditData({ ...editData, description: e.target.value })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                    placeholder={t('placeholders.description')}
-                    rows={3}
-                  />
-                </div>
-                <div className="flex justify-end gap-2 mt-6">
-                  <button
-                    onClick={handleSaveEdit}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  >
-                    {t('table.save')}
-                  </button>
-                  <button
-                    onClick={() => setEditIndex(null)}
-                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
-                  >
-                    {t('table.cancel')}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
+            <Button
+              component={Link}
+              to={ROUTES.FORM}
+              variant="contained"
+              sx={{
+                backgroundColor: "#4a90e2",
+                color: "#ffffff",
+                fontWeight: "bold",
+                paddingX: 4,
+                paddingY: 1.5,
+                borderRadius: 8,
+                boxShadow: "0 4px 12px rgba(74, 144, 226, 0.3)",
+                "&:hover": {
+                  backgroundColor: "#357abd",
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 6px 16px rgba(74, 144, 226, 0.4)",
+                },
+                transition: "all 0.3s ease",
+              }}
+            >
+              {t("form.backToTable")}
+            </Button>
+          </Box>
 
-          <Link
-            to={ROUTES.FORM}
-            className="mt-6 px-6 py-2 bg-white text-blue-600 font-semibold rounded-full shadow-lg transition-all duration-300 hover:bg-blue-50 hover:shadow-xl border border-blue-200"
-          >
-            {t('form.backToTable')}
-          </Link>
-        </div>
-      </div>
-    </div>
+          <Dialog open={editIndex !== null} onClose={() => setEditIndex(null)} maxWidth="sm" fullWidth>
+            <DialogTitle>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Typography variant="h6" color="#4a90e2">
+                  {t("table.editEntry")}
+                </Typography>
+              </Box>
+            </DialogTitle>
+            <DialogContent>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 2, paddingTop: 1 }}>
+                <Input
+                  value={editData.firstName}
+                  onChange={(e) => setEditData({ ...editData, firstName: e.target.value })}
+                  placeholder={t("placeholders.firstName")}
+                  fullWidth
+                  sx={{ backgroundColor: "#ffffff", borderRadius: 8 }}
+                />
+                <Input
+                  value={editData.lastName}
+                  onChange={(e) => setEditData({ ...editData, lastName: e.target.value })}
+                  placeholder={t("placeholders.lastName")}
+                  fullWidth
+                  sx={{ backgroundColor: "#ffffff", borderRadius: 8 }}
+                />
+                <Input
+                  type="number"
+                  value={editData.age}
+                  onChange={(e) =>
+                    setEditData({
+                      ...editData,
+                      age: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  placeholder={t("placeholders.age")}
+                  fullWidth
+                  sx={{ backgroundColor: "#ffffff", borderRadius: 8 }}
+                />
+                <Input
+                  value={editData.description}
+                  onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                  placeholder={t("placeholders.description")}
+                  fullWidth
+                  multiline
+                  rows={3}
+                  sx={{ backgroundColor: "#ffffff", borderRadius: 8 }}
+                />
+              </Box>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setEditIndex(null)} color="inherit" sx={{ color: "#718096" }}>
+                {t("table.cancel")}
+              </Button>
+              <Button onClick={handleSaveEdit} variant="contained" sx={{ backgroundColor: "#4a90e2", "&:hover": { backgroundColor: "#357abd" } }}>
+                {t("table.save")}
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Container>
+      </ContentBox>
+    </GradientBox>
   );
 }
